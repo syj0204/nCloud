@@ -2,6 +2,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+
 <html>
 <head>
 	<title>Home</title>
@@ -12,5 +13,6 @@
 </h1>
 
 <P>  NAME is ${name}. </P>
+<P>  Controller is ${controller}. </P>
 </body>
 </html>

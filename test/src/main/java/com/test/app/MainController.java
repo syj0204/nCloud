@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,11 +40,37 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String render(@RequestParam String name, Model model) {
-        
+    //public String render(@RequestParam String name, Model model) {
+	public String render(@RequestParam (value="name", required=false) String name, Model model) {
+        if (name == null) name = "";
         model.addAttribute("name", name);
+        model.addAttribute("controller", this.getClass().getName());
+        //model.addAttribute("controller", "MainController");
+        
+        logger.info("Get Call"); 
         
         return "render";
+    }
+	
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+    public String render_post(@RequestParam String name, Model model) {
+        
+        model.addAttribute("name", name);
+        model.addAttribute("controller", this.getClass().getName());
+        
+        logger.info("Post Call"); 
+        
+        return "render";
+    }
+	
+	@RequestMapping(value = "/error404", method = RequestMethod.GET)
+    public String error404(HttpServletResponse res, Model model) {
+		
+		res.setStatus(HttpServletResponse.SC_OK);
+		logger.warn("404 error occurred!!");
+		model.addAttribute("contents", "error/error404");
+        
+        return "main";
     }
 	
 }

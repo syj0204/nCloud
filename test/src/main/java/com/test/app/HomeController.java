@@ -2,10 +2,14 @@ package com.test.app;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class HomeController {
+	
+	@Autowired
+    private SqlSession sqlSession;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -33,6 +40,13 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+		
+		HashMap<String, String> input = new HashMap<String, String>();
+        input.put("name", "º≠øµ¡÷");
+        List<HashMap<String, String>> outputs = sqlSession.selectList("userControlMapper.selectSample", input);
+        System.out.println("123:=>"+outputs.toString());
+        
+       
 		return "home";
 	}
 	
